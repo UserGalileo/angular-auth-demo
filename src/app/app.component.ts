@@ -2,9 +2,17 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  template: `
+    <router-outlet></router-outlet>
+  `,
+  styles: [`
+    :host {
+      display: block;
+      background: rgba(0,0,0,.1);
+      max-width: 400px;
+      padding: 2em;
+    }
+  `]
 })
 export class AppComponent {
-  title = 'ng-auth-playground';
 }
