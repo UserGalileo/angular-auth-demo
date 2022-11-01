@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -12,11 +13,25 @@ import { Component } from '@angular/core';
       <button>Register</button>
       <p>Click <a routerLink="/login">here</a> to login</p>
     </form>
+    {{ message }}
   `
 })
 export class RegisterComponent {
 
-  constructor() {}
+  message = '';
 
-  onSubmit(formValue: any) {}
+  constructor(
+    private authService: AuthService
+  ) {}
+
+  onSubmit(formValue: any) {
+    this.authService.register(formValue).subscribe({
+      next: () => {
+        this.message = 'Registration Successful!';
+      },
+      error: () => {
+        this.message = 'Registration failed.';
+      }
+    })
+  }
 }

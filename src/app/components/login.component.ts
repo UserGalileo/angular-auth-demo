@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -10,11 +12,28 @@ import { Component } from '@angular/core';
       <button>Login</button>
       <p>Click <a routerLink="/register">here</a> to create a new account</p>
     </form>
+    {{ message }}
   `
 })
 export class LoginComponent {
 
-  constructor() {}
+  message = '';
 
-  onSubmit(formValue: any) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
+
+  onSubmit(formValue: any) {
+    const { email, password } = formValue;
+    this.authService.login(email, password).subscribe({
+      next: () => {
+        this.message = '';
+        this.router.navigateByUrl('/');
+      },
+      error: () => {
+        this.message = 'Login failed.'
+      }
+    })
+  }
 }

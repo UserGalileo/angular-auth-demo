@@ -7,6 +7,14 @@ import { HomeComponent } from './components/home.component';
 import { LoginComponent } from './components/login.component';
 import { RegisterComponent } from './components/register.component';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { AuthCookiesModule } from './auth-cookies/auth-cookies.module';
+import { AuthService } from './services/auth.service';
+import { AuthCookiesService } from './auth-cookies/auth-cookies.service';
+import { AuthTokensModule } from './auth-tokens/auth-tokens.module';
+import { AuthTokensService } from './auth-tokens/auth-tokens.service';
+
+const tokensOrCookies: 'tokens' | 'cookies' = 'tokens';
 
 @NgModule({
   declarations: [
@@ -18,9 +26,18 @@ import { FormsModule } from '@angular/forms';
   imports: [
     BrowserModule,
     FormsModule,
-    AppRoutingModule
+    HttpClientModule,
+    AppRoutingModule,
+    // @ts-ignore
+    tokensOrCookies === 'cookies' ? AuthCookiesModule : AuthTokensModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: AuthService,
+      // @ts-ignore
+      useExisting: tokensOrCookies === 'cookies' ? AuthCookiesService : AuthTokensService
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
