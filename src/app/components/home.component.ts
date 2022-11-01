@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { UserStore } from '../services/user.store';
-import { AuthService } from '../services/auth.service';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
+import { OAuthService } from '../oauth/oauth.service';
 
 @Component({
   selector: 'app-home',
@@ -18,7 +18,7 @@ export class HomeComponent {
 
   constructor(
     private userStore: UserStore,
-    private authService: AuthService
+    private authService: OAuthService
   ) {}
 
   logout() {

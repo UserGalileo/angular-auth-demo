@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home.component';
 import { LoginComponent } from './components/login.component';
-import { RegisterComponent } from './components/register.component';
+import { OAuthCallbackComponent } from './components/oauth-callback.component';
 import { AuthGuard } from './services/auth.guard';
 
 const routes: Routes = [
@@ -16,8 +16,8 @@ const routes: Routes = [
     component: LoginComponent
   },
   {
-    path: 'register',
-    component: RegisterComponent
+    path: 'auth-callback',
+    component: OAuthCallbackComponent
   },
   {
     path: '**',

@@ -1,24 +1,25 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, CanActivateChild, Router } from '@angular/router';
-import { AuthService } from './auth.service';
-import { catchError, map, take } from 'rxjs/operators';
+import { catchError, map, take, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { OAuthService } from '../oauth/oauth.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate, CanActivateChild {
 
   constructor(
-    private authService: AuthService,
+    private authService: OAuthService,
     private router: Router
   ) {}
 
   canActivate() {
     return this.authService.fetchUser().pipe(
       take(1),
-      map(() => true),
-      catchError(() => {
-        this.router.navigateByUrl('/login');
-        return of(false);
+      map(user => !!user),
+      tap(isLogged => {
+        if (!isLogged) {
+          this.router.navigateByUrl('/login');
+        }
       })
     )
   }
